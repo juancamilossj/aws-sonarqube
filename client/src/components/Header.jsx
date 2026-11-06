@@ -10,7 +10,10 @@ import {
   BookOpen,
   Share2,
   Box,
-  Layers
+  LogIn,
+  LogOut,
+  UserCheck,
+  ShieldCheck
 } from 'lucide-react';
 import { neuralAudio } from '../utils/AudioPlayer';
 
@@ -26,7 +29,10 @@ export default function Header({
   onOpenCreateNode,
   onOpenCreateSynapse,
   viewMode = '3d',
-  onToggleViewMode
+  onToggleViewMode,
+  currentUser,
+  onOpenAuth,
+  onLogout
 }) {
   const [isMuted, setIsMuted] = useState(false);
 
@@ -61,7 +67,7 @@ export default function Header({
                 SYNAPSE<span className="text-cyan-400">EDU</span>
               </h1>
               <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
-                Nexus 3D
+                JWT Secure
               </span>
             </div>
             <p className="text-xs text-slate-400 font-['Rajdhani'] font-medium">
@@ -84,7 +90,7 @@ export default function Header({
           </div>
         </div>
 
-        {/* Role Switcher, 3D/2D Toggle & Audio Controls */}
+        {/* Right Section: 3D/2D, Role Switcher, JWT Auth & Audio */}
         <div className="flex items-center gap-2.5">
           {/* 3D / 2D Space Toggle */}
           <button
@@ -92,7 +98,7 @@ export default function Header({
               onToggleViewMode();
               neuralAudio.playNodeSelect();
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold font-mono transition-all border ${
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold font-mono transition-all border ${
               viewMode === '3d'
                 ? 'bg-gradient-to-r from-purple-600/30 to-indigo-600/30 text-purple-200 border-purple-400 shadow-lg shadow-purple-500/20'
                 : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
@@ -100,42 +106,42 @@ export default function Header({
             title="Alternar entre Red 3D y Red 2D"
           >
             <Box className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{viewMode === '3d' ? '3D ESPACIO' : '2D PLANO'}</span>
+            <span>{viewMode === '3d' ? '3D' : '2D'}</span>
           </button>
 
           {/* Mode Switch (Estudiante vs Docente) */}
           <div className="flex bg-slate-900/90 p-1 rounded-xl border border-slate-800">
             <button
               onClick={() => handleRoleToggle('student')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
                 role === 'student'
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 shadow-md shadow-cyan-500/30'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <Sparkles className="w-3 h-3" />
               <span>Estudiante</span>
             </button>
 
             <button
               onClick={() => handleRoleToggle('teacher')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
                 role === 'teacher'
                   ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 shadow-md shadow-amber-500/30'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <GraduationCap className="w-3.5 h-3.5" />
+              <GraduationCap className="w-3 h-3" />
               <span>Docente</span>
             </button>
           </div>
 
           {/* Teacher Quick Actions */}
           {role === 'teacher' && (
-            <div className="hidden lg:flex items-center gap-2">
+            <div className="hidden xl:flex items-center gap-1.5">
               <button
                 onClick={onOpenCreateNode}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-purple-500/20 text-purple-300 border border-purple-500/40 hover:bg-purple-500/30 transition-all"
+                className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium bg-purple-500/20 text-purple-300 border border-purple-500/40 hover:bg-purple-500/30 transition-all"
                 title="Añadir nueva neurona curricular"
               >
                 <BookOpen className="w-3.5 h-3.5" />
@@ -143,13 +149,48 @@ export default function Header({
               </button>
               <button
                 onClick={onOpenCreateSynapse}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all"
+                className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-all"
                 title="Conectar sinapsis o puente interdisciplinar"
               >
                 <Share2 className="w-3.5 h-3.5" />
                 <span>+ Sinapsis</span>
               </button>
             </div>
+          )}
+
+          {/* JWT User Authentication Profile / Login Button */}
+          {currentUser ? (
+            <div className="flex items-center gap-2 pl-1 border-l border-slate-800">
+              <div className="flex items-center gap-2 bg-slate-900/90 border border-cyan-500/30 rounded-xl px-2.5 py-1">
+                <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-[11px] font-bold text-slate-950">
+                  {currentUser.name.charAt(0)}
+                </div>
+                <div className="hidden lg:block text-left">
+                  <div className="text-xs font-bold text-slate-200 font-['Rajdhani'] leading-tight">
+                    {currentUser.name.split(' ')[0]}
+                  </div>
+                  <div className="text-[9px] font-mono text-cyan-400 uppercase leading-none">
+                    {currentUser.role === 'teacher' ? 'Docente' : 'Estudiante'}
+                  </div>
+                </div>
+                <button
+                  onClick={onLogout}
+                  title="Cerrar sesión JWT"
+                  className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-rose-400 transition-colors ml-1"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={onOpenAuth}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-bold font-mono transition-all shadow-md shadow-cyan-500/10"
+              title="Iniciar sesión con JWT"
+            >
+              <LogIn className="w-3.5 h-3.5" />
+              <span>Conectar</span>
+            </button>
           )}
 
           {/* Audio FX Toggle */}

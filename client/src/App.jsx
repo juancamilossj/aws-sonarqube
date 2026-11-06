@@ -8,7 +8,9 @@ import NodeDetailModal from './components/NodeDetailModal';
 import CreateNodeModal from './components/CreateNodeModal';
 import CreateSynapseModal from './components/CreateSynapseModal';
 import ClusterLegend from './components/ClusterLegend';
+import AuthModal from './components/AuthModal';
 import { neuralAudio } from './utils/AudioPlayer';
+import { getAuthToken, removeAuthToken, authFetch } from './utils/auth';
 import { Brain, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
 
 export default function App() {
@@ -20,6 +22,10 @@ export default function App() {
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Authentication State
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   // Filters & Selection
   const [activeCluster, setActiveCluster] = useState('all');
@@ -37,6 +43,24 @@ export default function App() {
     setToast({ message, type });
     setTimeout(() => setToast(null), 4000);
   };
+
+  // Check stored JWT token on mount
+  useEffect(() => {
+    const token = getAuthToken();
+    if (token) {
+      authFetch('/api/auth/me')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.user) {
+            setCurrentUser(data.user);
+            setRole(data.user.role);
+          }
+        })
+        .catch(() => {
+          removeAuthToken();
+        });
+    }
+  }, []);
 
   // Fetch all core data
   const fetchData = useCallback(async () => {
@@ -74,6 +98,22 @@ export default function App() {
     fetchData();
   }, [fetchData]);
 
+  // Handle Authentication Success
+  const handleAuthSuccess = (user, token) => {
+    setCurrentUser(user);
+    setRole(user.role);
+    showToast(`Sesión JWT iniciada: ${user.name} (${user.role === 'teacher' ? 'Docente' : 'Estudiante'})`, 'success');
+  };
+
+  // Handle Logout
+  const handleLogout = () => {
+    removeAuthToken();
+    setCurrentUser(null);
+    setRole('student');
+    neuralAudio.playNodeSelect();
+    showToast('Sesión JWT cerrada correctamente', 'info');
+  };
+
   // Handle selecting a node (with audio feedback)
   const handleSelectNode = (node) => {
     setSelectedNode(node);
@@ -88,12 +128,11 @@ export default function App() {
     }
   };
 
-  // Complete diagnostic challenge on a node
+  // Complete diagnostic challenge on a node (Authenticated)
   const handleCompleteNode = async (nodeId) => {
     try {
-      const res = await fetch(`/api/nodes/${nodeId}/complete`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+      const res = await authFetch(`/api/nodes/${nodeId}/complete`, {
+        method: 'POST'
       });
       const data = await res.json();
       if (data.success) {
@@ -119,9 +158,8 @@ export default function App() {
   // Create new node (Teacher action)
   const handleCreateNode = async (newNodeData) => {
     try {
-      const res = await fetch('/api/nodes', {
+      const res = await authFetch('/api/nodes', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newNodeData)
       });
       const data = await res.json();
@@ -143,9 +181,8 @@ export default function App() {
   // Create synapse (Teacher action)
   const handleCreateSynapse = async (synapseData) => {
     try {
-      const res = await fetch('/api/synapses', {
+      const res = await authFetch('/api/synapses', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(synapseData)
       });
       const data = await res.json();
@@ -167,10 +204,8 @@ export default function App() {
   const handleNodePositionChange = (nodeId, x, y, z) => {
     setNodes(prev => prev.map(n => n.id === nodeId ? { ...n, x, y, z: z ?? n.z ?? 0 } : n));
 
-    // Debounced or non-blocking sync with backend
-    fetch(`/api/nodes/${nodeId}/position`, {
+    authFetch(`/api/nodes/${nodeId}/position`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ x, y, z })
     }).catch(() => {});
   };
@@ -210,7 +245,7 @@ export default function App() {
           Iniciando Conectoma Neural 3D...
         </h2>
         <p className="text-xs text-slate-400 mt-2 font-mono">
-          Renderizando sinapsis y mapa cognitivo tridimensional
+          Verificando credenciales JWT y topología cognitiva
         </p>
       </div>
     );
@@ -238,6 +273,19 @@ export default function App() {
       </div>
     );
   }
+
+  // Merged student object using authenticated user info if logged in
+  const activeStudentProfile = currentUser && currentUser.role === 'student'
+    ? {
+        ...student,
+        name: currentUser.name,
+        cohort: currentUser.cohort || student?.cohort,
+        title: currentUser.title || student?.title,
+        id: currentUser.studentId || student?.id,
+        level: currentUser.level || student?.level,
+        xp: currentUser.xp ?? student?.xp
+      }
+    : student;
 
   return (
     <div className="relative w-screen h-screen overflow-hidden flex flex-col bg-[#070913]">
@@ -267,6 +315,9 @@ export default function App() {
         onOpenCreateSynapse={() => setIsCreateSynapseOpen(true)}
         viewMode={viewMode}
         onToggleViewMode={() => setViewMode(v => v === '3d' ? '2d' : '3d')}
+        currentUser={currentUser}
+        onOpenAuth={() => setIsAuthModalOpen(true)}
+        onLogout={handleLogout}
       />
 
       {/* Main Interactive Neural Canvas (3D or 2D) */}
@@ -296,7 +347,7 @@ export default function App() {
         {/* Student Progress HUD (Student Mode) */}
         {role === 'student' && (
           <StudentProgressCard
-            student={student}
+            student={activeStudentProfile}
             nodes={nodes}
           />
         )}
@@ -346,6 +397,13 @@ export default function App() {
         onClose={() => setIsCreateSynapseOpen(false)}
         onCreateSynapse={handleCreateSynapse}
         existingNodes={nodes}
+      />
+
+      {/* JWT Authentication Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onAuthSuccess={handleAuthSuccess}
       />
     </div>
   );
