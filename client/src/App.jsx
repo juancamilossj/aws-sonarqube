@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
+import NeuralCanvas3D from './components/NeuralCanvas3D';
 import NeuralCanvas from './components/NeuralCanvas';
 import StudentProgressCard from './components/StudentProgressCard';
 import TeacherPanel from './components/TeacherPanel';
@@ -12,6 +13,7 @@ import { Brain, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
 
 export default function App() {
   const [role, setRole] = useState('student'); // 'student' | 'teacher'
+  const [viewMode, setViewMode] = useState('3d'); // '3d' | '2d'
   const [nodes, setNodes] = useState([]);
   const [clusters, setClusters] = useState([]);
   const [student, setStudent] = useState(null);
@@ -162,8 +164,15 @@ export default function App() {
   };
 
   // Update node position in state when dragged
-  const handleNodePositionChange = (nodeId, x, y) => {
-    setNodes(prev => prev.map(n => n.id === nodeId ? { ...n, x, y } : n));
+  const handleNodePositionChange = (nodeId, x, y, z) => {
+    setNodes(prev => prev.map(n => n.id === nodeId ? { ...n, x, y, z: z ?? n.z ?? 0 } : n));
+
+    // Debounced or non-blocking sync with backend
+    fetch(`/api/nodes/${nodeId}/position`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ x, y, z })
+    }).catch(() => {});
   };
 
   // Reset Network to initial state
@@ -198,10 +207,10 @@ export default function App() {
           <Brain className="w-10 h-10 text-cyan-300 animate-pulse" />
         </div>
         <h2 className="text-xl font-black tracking-widest uppercase font-['Orbitron'] bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-          Iniciando Conectoma Neural...
+          Iniciando Conectoma Neural 3D...
         </h2>
         <p className="text-xs text-slate-400 mt-2 font-mono">
-          Sincronizando sinapsis y mapa cognitivo institucional
+          Renderizando sinapsis y mapa cognitivo tridimensional
         </p>
       </div>
     );
@@ -256,19 +265,33 @@ export default function App() {
         onResetNetwork={handleResetNetwork}
         onOpenCreateNode={() => setIsCreateNodeOpen(true)}
         onOpenCreateSynapse={() => setIsCreateSynapseOpen(true)}
+        viewMode={viewMode}
+        onToggleViewMode={() => setViewMode(v => v === '3d' ? '2d' : '3d')}
       />
 
-      {/* Main Interactive Neural Canvas */}
+      {/* Main Interactive Neural Canvas (3D or 2D) */}
       <div className="relative flex-1 w-full h-full">
-        <NeuralCanvas
-          nodes={nodes}
-          selectedNode={selectedNode}
-          onSelectNode={handleSelectNode}
-          role={role}
-          highlightCluster={activeCluster}
-          searchQuery={searchQuery}
-          onNodePositionChange={handleNodePositionChange}
-        />
+        {viewMode === '3d' ? (
+          <NeuralCanvas3D
+            nodes={nodes}
+            selectedNode={selectedNode}
+            onSelectNode={handleSelectNode}
+            role={role}
+            highlightCluster={activeCluster}
+            searchQuery={searchQuery}
+            onNodePositionChange={handleNodePositionChange}
+          />
+        ) : (
+          <NeuralCanvas
+            nodes={nodes}
+            selectedNode={selectedNode}
+            onSelectNode={handleSelectNode}
+            role={role}
+            highlightCluster={activeCluster}
+            searchQuery={searchQuery}
+            onNodePositionChange={handleNodePositionChange}
+          />
+        )}
 
         {/* Student Progress HUD (Student Mode) */}
         {role === 'student' && (

@@ -40,8 +40,9 @@
       { "title": "Simulador de Espacios Vectoriales", "type": "Holo-Lab", "duration": "10 min" },
       { "title": "Esencia del Álgebra Matricial", "type": "Micro-Doc", "duration": "5 min" }
     ],
-    "x": -250,
-    "y": -120
+    "x": -260,
+    "y": -80,
+    "z": 120
   },
   {
     "id": "mat-calculo-vectorial",
@@ -84,8 +85,9 @@
       { "title": "Topología 3D de Gradientes", "type": "Simulación Interactiva", "duration": "12 min" },
       { "title": "Guía Visual de Derivadas Parciales", "type": "Infografía Neuronal", "duration": "7 min" }
     ],
-    "x": -100,
-    "y": -220
+    "x": -120,
+    "y": -180,
+    "z": 40
   },
   {
     "id": "ia-optimizacion-descenso",
@@ -127,8 +129,9 @@
     "resources": [
       { "title": "Lab: Calibrando el Descenso en Superficies No Convexas", "type": "Holo-Lab", "duration": "15 min" }
     ],
-    "x": 80,
-    "y": -200
+    "x": 60,
+    "y": -160,
+    "z": -40
   },
   {
     "id": "ia-redes-neuronales",
@@ -171,7 +174,8 @@
       { "title": "Explorador de Funciones de Activación", "type": "Visualizador Dinámico", "duration": "8 min" }
     ],
     "x": -60,
-    "y": -60
+    "y": -50,
+    "z": 10
   },
   {
     "id": "ia-deep-learning",
@@ -213,8 +217,9 @@
     "resources": [
       { "title": "Microscopio de Capas Latentes", "type": "Holo-Lab", "duration": "14 min" }
     ],
-    "x": 150,
-    "y": -80
+    "x": 160,
+    "y": -70,
+    "z": -80
   },
   {
     "id": "ia-transformers-atencion",
@@ -256,8 +261,9 @@
     "resources": [
       { "title": "Deconstrucción 3D de la Matriz de Atención", "type": "Holo-Lab", "duration": "18 min" }
     ],
-    "x": 320,
-    "y": -130
+    "x": 300,
+    "y": -120,
+    "z": -140
   },
   {
     "id": "bio-neurobiologia-redes",
@@ -300,7 +306,8 @@
       { "title": "Registro de Microelectrodos Virtuales", "type": "Holo-Lab", "duration": "10 min" }
     ],
     "x": -220,
-    "y": 120
+    "y": 130,
+    "z": 100
   },
   {
     "id": "bio-plasticidad-sinaptica",
@@ -342,8 +349,9 @@
     "resources": [
       { "title": "Animación Molecular de Receptores NMDA", "type": "Simulación Bio", "duration": "9 min" }
     ],
-    "x": -60,
-    "y": 160
+    "x": -70,
+    "y": 170,
+    "z": 70
   },
   {
     "id": "bio-interfaces-cerebro-maquina",
@@ -385,8 +393,9 @@
     "resources": [
       { "title": "Taller: Decodificando Intención Motora con Python", "type": "Lab Práctico", "duration": "20 min" }
     ],
-    "x": 120,
-    "y": 180
+    "x": 100,
+    "y": 190,
+    "z": 10
   },
   {
     "id": "etica-sesgo-algoritmico",
@@ -428,8 +437,9 @@
     "resources": [
       { "title": "Estudio de Caso: Auditoría a Modelos de Crédito", "type": "Caso de Estudio", "duration": "11 min" }
     ],
-    "x": 280,
-    "y": 30
+    "x": 260,
+    "y": 30,
+    "z": -70
   },
   {
     "id": "etica-neuroderechos",
@@ -471,8 +481,9 @@
     "resources": [
       { "title": "Tratado Internacional de Neuroderechos", "type": "Lectura Crítica", "duration": "12 min" }
     ],
-    "x": 260,
-    "y": 240
+    "x": 240,
+    "y": 210,
+    "z": -20
   },
   {
     "id": "sociedad-futuro-cognicion",
@@ -514,8 +525,9 @@
     "resources": [
       { "title": "Manifiesto de la Educación Conectivista", "type": "Ensayo Interactivo", "duration": "15 min" }
     ],
-    "x": 420,
-    "y": 60
+    "x": 380,
+    "y": 70,
+    "z": -120
   },
   {
     "id": "fis-mecanica-cuantica",
@@ -557,8 +569,9 @@
     "resources": [
       { "title": "Simulador Qubit de Bloch", "type": "Holo-Lab", "duration": "16 min" }
     ],
-    "x": -260,
-    "y": -280
+    "x": -270,
+    "y": -250,
+    "z": -60
   },
   {
     "id": "fis-campos-electromagneticos",
@@ -600,7 +613,8 @@
     "resources": [
       { "title": "Cámara de Flujo Electromagnético", "type": "Simulación 3D", "duration": "10 min" }
     ],
-    "x": -150,
-    "y": -360
+    "x": -180,
+    "y": -330,
+    "z": 20
   }
 ]

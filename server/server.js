@@ -208,7 +208,8 @@ app.post('/api/nodes', (req, res) => {
       { title: `Guía Docente: ${title}`, type: "Material Didáctico", duration: "10 min" }
     ],
     x: (Math.random() - 0.5) * 400,
-    y: (Math.random() - 0.5) * 400
+    y: (Math.random() - 0.5) * 400,
+    z: (Math.random() - 0.5) * 250
   };
 
   // Add synapse to source prerequisites
@@ -265,6 +266,18 @@ app.post('/api/synapses', (req, res) => {
 });
 
 // 6. Delete a node (Teacher mode)
+app.patch('/api/nodes/:id/position', (req, res) => {
+  const { id } = req.params;
+  const { x, y, z } = req.body;
+  const node = db.nodes.find(n => n.id === id);
+  if (!node) return res.status(404).json({ error: "Nodo no encontrado" });
+  if (x !== undefined) node.x = x;
+  if (y !== undefined) node.y = y;
+  if (z !== undefined) node.z = z;
+  saveDatabase();
+  res.json({ success: true, node });
+});
+
 app.delete('/api/nodes/:id', (req, res) => {
   const { id } = req.params;
   db.nodes = db.nodes.filter(n => n.id !== id);

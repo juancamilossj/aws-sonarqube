@@ -9,7 +9,8 @@ import {
   Search,
   BookOpen,
   Share2,
-  ShieldAlert
+  Box,
+  Layers
 } from 'lucide-react';
 import { neuralAudio } from '../utils/AudioPlayer';
 
@@ -23,7 +24,9 @@ export default function Header({
   searchQuery,
   onResetNetwork,
   onOpenCreateNode,
-  onOpenCreateSynapse
+  onOpenCreateSynapse,
+  viewMode = '3d',
+  onToggleViewMode
 }) {
   const [isMuted, setIsMuted] = useState(false);
 
@@ -58,11 +61,11 @@ export default function Header({
                 SYNAPSE<span className="text-cyan-400">EDU</span>
               </h1>
               <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
-                Nexus v2.6
+                Nexus 3D
               </span>
             </div>
             <p className="text-xs text-slate-400 font-['Rajdhani'] font-medium">
-              Red Neuronal Cognitiva Interdisciplinaria
+              Red Neuronal Cognitiva Interdisciplinaria en 3D
             </p>
           </div>
         </div>
@@ -81,8 +84,25 @@ export default function Header({
           </div>
         </div>
 
-        {/* Role Switcher & Audio Controls */}
-        <div className="flex items-center gap-3">
+        {/* Role Switcher, 3D/2D Toggle & Audio Controls */}
+        <div className="flex items-center gap-2.5">
+          {/* 3D / 2D Space Toggle */}
+          <button
+            onClick={() => {
+              onToggleViewMode();
+              neuralAudio.playNodeSelect();
+            }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold font-mono transition-all border ${
+              viewMode === '3d'
+                ? 'bg-gradient-to-r from-purple-600/30 to-indigo-600/30 text-purple-200 border-purple-400 shadow-lg shadow-purple-500/20'
+                : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
+            }`}
+            title="Alternar entre Red 3D y Red 2D"
+          >
+            <Box className="w-3.5 h-3.5 text-cyan-400" />
+            <span>{viewMode === '3d' ? '3D ESPACIO' : '2D PLANO'}</span>
+          </button>
+
           {/* Mode Switch (Estudiante vs Docente) */}
           <div className="flex bg-slate-900/90 p-1 rounded-xl border border-slate-800">
             <button
