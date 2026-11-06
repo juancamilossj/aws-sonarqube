@@ -27,5 +27,6 @@ yarn-error.log*
 .vscode/
 .idea/
 
-# Database files that should be re-generated
+# Database files and generated runtime data
 server/data/database.json
+server/data/users.json

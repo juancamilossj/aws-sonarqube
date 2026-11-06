@@ -29,6 +29,7 @@ export default function NodeDetailModal({
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [simToast, setSimToast] = useState('');
 
   if (!node) return null;
 
@@ -68,6 +69,13 @@ export default function NodeDetailModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md select-none animate-fadeIn">
       <div className="relative w-full max-w-2xl bg-slate-950/95 border border-cyan-500/40 rounded-3xl shadow-2xl shadow-cyan-950/80 overflow-hidden flex flex-col max-h-[90vh]">
+
+        {/* Sim toast notification */}
+        {simToast && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 px-4 py-2 bg-cyan-900/90 border border-cyan-400/50 rounded-xl text-cyan-300 text-xs font-semibold shadow-lg animate-fadeIn">
+            ⚡ {simToast}
+          </div>
+        )}
 
         {/* Modal Top Header */}
         <div className="p-5 border-b border-slate-800 bg-gradient-to-r from-slate-900/80 via-slate-950 to-slate-900/80 flex items-start justify-between gap-4">
@@ -471,7 +479,10 @@ export default function NodeDetailModal({
                       </div>
 
                       <button
-                        onClick={() => alert(`Iniciando experiencia: ${res.title}`)}
+                        onClick={() => {
+                          setSimToast(`Iniciando experiencia: ${res.title}`);
+                          setTimeout(() => setSimToast(''), 3000);
+                        }}
                         className="mt-3 w-full py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
                       >
                         <Zap className="w-3.5 h-3.5" />

@@ -50,8 +50,8 @@ class NeuralAudioEngine {
 
       osc.start();
       osc.stop(this.ctx.currentTime + 0.08);
-    } catch (e) {
-      // Audio context might be restricted before user gesture
+    } catch {
+      // Audio playback might be restricted before user gesture
     }
   }
 
@@ -77,7 +77,9 @@ class NeuralAudioEngine {
 
       osc.start();
       osc.stop(this.ctx.currentTime + 0.15);
-    } catch (e) {}
+    } catch {
+      // Audio playback might be restricted before user gesture
+    }
   }
 
   // Triumphant harmonic arpeggio for node activation and level up
@@ -106,7 +108,9 @@ class NeuralAudioEngine {
         osc.start(startTime);
         osc.stop(startTime + 0.35);
       });
-    } catch (e) {}
+    } catch {
+      // Audio playback might be restricted before user gesture
+    }
   }
 
   // Low warning ping for bottleneck / struggling nodes
@@ -131,7 +135,9 @@ class NeuralAudioEngine {
 
       osc.start();
       osc.stop(this.ctx.currentTime + 0.25);
-    } catch (e) {}
+    } catch {
+      // Audio playback might be restricted before user gesture
+    }
   }
 }
 

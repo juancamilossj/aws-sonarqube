@@ -11,24 +11,64 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const USERS_FILE = path.join(__dirname, '..', 'data', 'users.json');
 
+// Helper to get default demo users dynamically hashed at runtime
+function getDefaultUsers() {
+  return [
+    {
+      id: 'usr-student-01',
+      name: 'Alex Thorne',
+      email: 'alex.thorne@synapse.edu',
+      password: bcrypt.hashSync('student123', 10),
+      role: 'student',
+      cohort: 'Cohorte Alfa 2026 - Bio-Computación',
+      studentId: 'std-9821-neuro',
+      title: 'Arquitecto Sináptico Nivel 4',
+      level: 4,
+      xp: 1450,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 'usr-teacher-01',
+      name: 'Dra. Elena García',
+      email: 'elena.garcia@synapse.edu',
+      password: bcrypt.hashSync('teacher123', 10),
+      role: 'teacher',
+      cohort: 'Dirección Curricular & Neurocomputación',
+      department: 'Ciencias Cognitivas e Inteligencia Artificial',
+      title: 'Catedrática Principal',
+      createdAt: new Date().toISOString()
+    }
+  ];
+}
+
 // Helper to load users
 function getUsers() {
   try {
     if (fs.existsSync(USERS_FILE)) {
-      return JSON.parse(fs.readFileSync(USERS_FILE, 'utf-8'));
+      const data = JSON.parse(fs.readFileSync(USERS_FILE, 'utf-8'));
+      if (Array.isArray(data) && data.length > 0) {
+        return data;
+      }
     }
   } catch (e) {
-    console.error('Error reading users file:', e);
+    // Fall back to default users if file is missing or corrupted
   }
-  return [];
+
+  const defaults = getDefaultUsers();
+  saveUsers(defaults);
+  return defaults;
 }
 
 // Helper to save users
 function saveUsers(users) {
   try {
+    const dir = path.dirname(USERS_FILE);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), 'utf-8');
   } catch (e) {
-    console.error('Error saving users file:', e);
+    // Log saving error if disk write fails
   }
 }
 
@@ -67,7 +107,7 @@ router.post('/login', async (req, res) => {
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 
-  res.json({
+  return res.json({
     success: true,
     message: `Autenticación exitosa. Bienvenido, ${user.name}`,
     token,
@@ -103,7 +143,7 @@ router.post('/register', async (req, res) => {
     password: hashedPassword,
     role: role === 'teacher' ? 'teacher' : 'student',
     cohort: cohort || (role === 'teacher' ? 'Cuerpo Docente Institucional' : 'Cohorte Beta 2026'),
-    studentId: role === 'student' ? `std-${Math.floor(1000 + Math.random() * 9000)}-neuro` : undefined,
+    studentId: role === 'student' ? `std-${Date.now().toString().slice(-4)}-neuro` : undefined,
     title: role === 'teacher' ? 'Docente Investigador' : 'Iniciado de Red',
     level: 1,
     xp: 0,
@@ -126,7 +166,7 @@ router.post('/register', async (req, res) => {
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 
-  res.status(201).json({
+  return res.status(201).json({
     success: true,
     message: 'Usuario registrado e integrado al conectoma con éxito',
     token,
@@ -156,7 +196,7 @@ router.get('/me', verifyToken, (req, res) => {
     department: user.department
   };
 
-  res.json({
+  return res.json({
     success: true,
     user: safeUser
   });
@@ -186,7 +226,7 @@ router.post('/demo/:role', (req, res) => {
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 
-  res.json({
+  return res.json({
     success: true,
     message: `Sesión demo iniciada como ${user.name} (${user.role === 'teacher' ? 'Docente' : 'Estudiante'})`,
     token,

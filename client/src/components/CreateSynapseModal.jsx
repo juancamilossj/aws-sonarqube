@@ -7,15 +7,17 @@ export default function CreateSynapseModal({ isOpen, onClose, onCreateSynapse, e
   const [targetId, setTargetId] = useState(existingNodes[1]?.id || '');
   const [isInterdisciplinary, setIsInterdisciplinary] = useState(false);
   const [description, setDescription] = useState('');
+  const [validationError, setValidationError] = useState('');
 
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!sourceId || !targetId || sourceId === targetId) {
-      alert("Por favor selecciona dos neuronas diferentes para formar la sinapsis.");
+      setValidationError('Por favor selecciona dos neuronas diferentes para formar la sinapsis.');
       return;
     }
+    setValidationError('');
 
     onCreateSynapse({
       sourceId,
@@ -52,6 +54,11 @@ export default function CreateSynapseModal({ isOpen, onClose, onCreateSynapse, e
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {validationError && (
+            <div className="px-4 py-2 bg-red-950/60 border border-red-500/40 rounded-xl text-red-400 text-xs font-medium">
+              {validationError}
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3 items-center">
             <div>
               <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">

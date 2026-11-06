@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
-export const JWT_SECRET = process.env.JWT_SECRET || 'synapse_edu_super_secret_jwt_key_2026';
+// Use environment variable or generate a secure random 256-bit key at runtime
+export const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
 
 // Middleware to verify JWT token in Authorization header
 export const verifyToken = (req, res, next) => {
@@ -19,7 +21,7 @@ export const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
-    next();
+    return next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
       return res.status(401).json({ error: 'Sesión expirada. Por favor inicia sesión nuevamente.' });
@@ -42,7 +44,7 @@ export const requireRole = (allowedRoles) => {
       });
     }
 
-    next();
+    return next();
   };
 };
 
@@ -55,8 +57,10 @@ export const optionalToken = (req, res, next) => {
       try {
         const decoded = jwt.verify(parts[1], JWT_SECRET);
         req.user = decoded;
-      } catch (err) {}
+      } catch (err) {
+        // Silently continue if optional token fails
+      }
     }
   }
-  next();
+  return next();
 };
