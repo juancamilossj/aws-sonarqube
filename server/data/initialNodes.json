@@ -1,0 +1,606 @@
+[
+  {
+    "id": "mat-algebra-lineal",
+    "title": "Álgebra Lineal & Vectores",
+    "cluster": "Matemáticas & Lógica",
+    "clusterColor": "#00f2fe",
+    "level": "Básico",
+    "summary": "Fundamento espacial y matricial para comprender transformaciones en múltiples dimensiones y espacios latentes.",
+    "status": "mastered",
+    "masteryScore": 100,
+    "xpReward": 120,
+    "synapses": ["mat-calculo-vectorial", "ia-redes-neuronales", "fis-mecanica-cuantica"],
+    "prerequisites": [],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "ia-redes-neuronales",
+        "description": "Las matrices de pesos en una red neuronal son transformaciones lineales en espacios de alta dimensionalidad."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 82,
+      "studentsStruggling": 14,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Qué representa geométricamente la multiplicación de un vector por una matriz?",
+        "options": [
+          "Una traslación en el tiempo únicamente",
+          "Una transformación lineal (rotación, escala o deformación) en el espacio vectorial",
+          "La eliminación irreversible de todas las dimensiones",
+          "Una suma escalar sin orientación"
+        ],
+        "correctIndex": 1,
+        "explanation": "Multiplicar un vector por una matriz transforma sus componentes mediante rotaciones, estiramientos y proyecciones en el espacio."
+      }
+    ],
+    "resources": [
+      { "title": "Simulador de Espacios Vectoriales", "type": "Holo-Lab", "duration": "10 min" },
+      { "title": "Esencia del Álgebra Matricial", "type": "Micro-Doc", "duration": "5 min" }
+    ],
+    "x": -250,
+    "y": -120
+  },
+  {
+    "id": "mat-calculo-vectorial",
+    "title": "Cálculo Multivariable & Gradientes",
+    "cluster": "Matemáticas & Lógica",
+    "clusterColor": "#00f2fe",
+    "level": "Intermedio",
+    "summary": "Derivadas parciales, gradientes y optimización en paisajes multidimensionales.",
+    "status": "in_progress",
+    "masteryScore": 65,
+    "xpReward": 180,
+    "synapses": ["ia-optimizacion-descenso", "fis-campos-electromagneticos"],
+    "prerequisites": ["mat-algebra-lineal"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "ia-optimizacion-descenso",
+        "description": "El gradiente apunta en la dirección de máximo ascenso; su inverso permite a los modelos aprender por descenso de gradiente."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 54,
+      "studentsStruggling": 68,
+      "totalStudents": 150,
+      "isBottleneck": true
+    },
+    "quiz": [
+      {
+        "question": "¿Hacia dónde apunta el vector gradiente ∇f de una función escalar multivariable?",
+        "options": [
+          "Hacia el punto de mínimo absoluto siempre",
+          "En la dirección de máxima tasa de crecimiento de la función",
+          "Perpendicular a todas las trayectorias de cambio",
+          "Hacia el origen de coordenadas (0,0)"
+        ],
+        "correctIndex": 1,
+        "explanation": "El gradiente ∇f apunta en la dirección en la que la función incrementa con mayor rapidez."
+      }
+    ],
+    "resources": [
+      { "title": "Topología 3D de Gradientes", "type": "Simulación Interactiva", "duration": "12 min" },
+      { "title": "Guía Visual de Derivadas Parciales", "type": "Infografía Neuronal", "duration": "7 min" }
+    ],
+    "x": -100,
+    "y": -220
+  },
+  {
+    "id": "ia-optimizacion-descenso",
+    "title": "Descenso de Gradiente & Backpropagation",
+    "cluster": "IA & Algoritmos",
+    "clusterColor": "#a855f7",
+    "level": "Avanzado",
+    "summary": "Mecanismo central con el que los modelos de aprendizaje ajustan sus sinapsis artificiales minimizando el error.",
+    "status": "in_progress",
+    "masteryScore": 40,
+    "xpReward": 220,
+    "synapses": ["ia-deep-learning", "ia-transformers-atencion"],
+    "prerequisites": ["mat-calculo-vectorial", "mat-algebra-lineal"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "bio-plasticidad-sinaptica",
+        "description": "Compara el algoritmo de retropropagación artificial con la regla de Hebb y la plasticidad sináptica en cerebros biológicos."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 48,
+      "studentsStruggling": 76,
+      "totalStudents": 150,
+      "isBottleneck": true
+    },
+    "quiz": [
+      {
+        "question": "¿Cuál es el rol de la tasa de aprendizaje (learning rate) en el descenso de gradiente?",
+        "options": [
+          "Determina la cantidad de neuronas en la capa oculta",
+          "Controla el tamaño del paso dado en la dirección opuesta al gradiente en cada iteración",
+          "Define el porcentaje de datos descartados en el entrenamiento",
+          "Establece el número máximo de capas del modelo"
+        ],
+        "correctIndex": 1,
+        "explanation": "La tasa de aprendizaje modula la magnitud del ajuste a los parámetros; si es muy alta oscila, si es muy baja tarda demasiado en converger."
+      }
+    ],
+    "resources": [
+      { "title": "Lab: Calibrando el Descenso en Superficies No Convexas", "type": "Holo-Lab", "duration": "15 min" }
+    ],
+    "x": 80,
+    "y": -200
+  },
+  {
+    "id": "ia-redes-neuronales",
+    "title": "Arquitecturas Neuronales Conectivistas",
+    "cluster": "IA & Algoritmos",
+    "clusterColor": "#a855f7",
+    "level": "Intermedio",
+    "summary": "Perceptrones multicapa, capas densas, funciones de activación no lineales y representación latente.",
+    "status": "mastered",
+    "masteryScore": 100,
+    "xpReward": 170,
+    "synapses": ["ia-optimizacion-descenso", "ia-deep-learning"],
+    "prerequisites": ["mat-algebra-lineal"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "bio-neurobiologia-redes",
+        "description": "Inspiración biónica: cómo el soma y las dendritas inspiraron la función de suma ponderada y activación."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 79,
+      "studentsStruggling": 22,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Por qué es crucial incluir funciones de activación no lineales (como ReLU o GELU) en las redes neuronales?",
+        "options": [
+          "Para que el código compile más rápido",
+          "Para permitir que la red aprenda y aproxime relaciones complejas y no lineales",
+          "Para reducir el consumo de memoria a la mitad",
+          "Para forzar que todas las salidas sean números enteros"
+        ],
+        "correctIndex": 1,
+        "explanation": "Sin funciones no lineales, cualquier combinación de capas densas colapsaría en una simple transformación lineal equivalente a una sola capa."
+      }
+    ],
+    "resources": [
+      { "title": "Explorador de Funciones de Activación", "type": "Visualizador Dinámico", "duration": "8 min" }
+    ],
+    "x": -60,
+    "y": -60
+  },
+  {
+    "id": "ia-deep-learning",
+    "title": "Deep Learning & Representación Jerárquica",
+    "cluster": "IA & Algoritmos",
+    "clusterColor": "#a855f7",
+    "level": "Avanzado",
+    "summary": "Extracción jerárquica de características desde bordes simples hasta conceptos semánticos abstractos.",
+    "status": "in_progress",
+    "masteryScore": 55,
+    "xpReward": 250,
+    "synapses": ["ia-transformers-atencion", "etica-sesgo-algoritmico"],
+    "prerequisites": ["ia-redes-neuronales", "ia-optimizacion-descenso"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "etica-sesgo-algoritmico",
+        "description": "Los modelos profundos pueden codificar y amplificar sesgos socioculturales implícitos en los conjuntos de datos masivos."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 62,
+      "studentsStruggling": 45,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Qué ocurre en las capas tempranas de una red profunda de visión o procesamiento?",
+        "options": [
+          "Extraen características de bajo nivel como bordes, contrastes y frecuencias básicas",
+          "Clasifican el concepto final con 99% de certidumbre",
+          "Eliminan los pesos sinápticos irrelevantes",
+          "Generan texto explicativo en lenguaje natural"
+        ],
+        "correctIndex": 0,
+        "explanation": "El aprendizaje jerárquico construye abstracciones: las primeras capas detectan primitivas y las capas finales componen entidades complejas."
+      }
+    ],
+    "resources": [
+      { "title": "Microscopio de Capas Latentes", "type": "Holo-Lab", "duration": "14 min" }
+    ],
+    "x": 150,
+    "y": -80
+  },
+  {
+    "id": "ia-transformers-atencion",
+    "title": "Mecanismos de Auto-Atención & Transformers",
+    "cluster": "IA & Algoritmos",
+    "clusterColor": "#a855f7",
+    "level": "Nivel Maestro",
+    "summary": "Atención cruzada (Q, K, V), embeddings posicionales y procesamiento paralelo masivo del lenguaje y multimodales.",
+    "status": "locked",
+    "masteryScore": 0,
+    "xpReward": 350,
+    "synapses": ["sociedad-futuro-cognicion", "etica-sesgo-algoritmico"],
+    "prerequisites": ["ia-deep-learning", "ia-optimizacion-descenso"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "sociedad-futuro-cognicion",
+        "description": "La emergencia de capacidades de razonamiento sintético transforma la epistemología y el mercado laboral global."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 38,
+      "studentsStruggling": 92,
+      "totalStudents": 150,
+      "isBottleneck": true
+    },
+    "quiz": [
+      {
+        "question": "En el mecanismo 'Scaled Dot-Product Attention', ¿cuál es la función de los vectores Query (Q) y Key (K)?",
+        "options": [
+          "Calcular la similitud y peso de afinidad entre cada par de elementos de la secuencia",
+          "Guardar la contraseña de encriptación del modelo",
+          "Comprimir el modelo a un formato de menor resolución",
+          "Evitar que el usuario modifique las respuestas"
+        ],
+        "correctIndex": 0,
+        "explanation": "El producto escalar de Q con K produce las matrices de afinidad o atención, indicando a qué partes del contexto debe prestar atención el modelo."
+      }
+    ],
+    "resources": [
+      { "title": "Deconstrucción 3D de la Matriz de Atención", "type": "Holo-Lab", "duration": "18 min" }
+    ],
+    "x": 320,
+    "y": -130
+  },
+  {
+    "id": "bio-neurobiologia-redes",
+    "title": "Neurobiología Celular & Conectoma",
+    "cluster": "Bio-Sistemas & Neuro",
+    "clusterColor": "#10b981",
+    "level": "Básico",
+    "summary": "Estructura de la neurona biológica, potenciales de acción, canales iónicos y red conectómica.",
+    "status": "mastered",
+    "masteryScore": 95,
+    "xpReward": 130,
+    "synapses": ["bio-plasticidad-sinaptica", "ia-redes-neuronales"],
+    "prerequisites": [],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "ia-redes-neuronales",
+        "description": "La propagación del potencial electroquímico inspiró los modelos de umbral de McCulloch-Pitts."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 88,
+      "studentsStruggling": 10,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Qué ion es el principal responsable de la despolarización inicial en un potencial de acción biológico?",
+        "options": [
+          "Entrada masiva y rápida de Sodio (Na+)",
+          "Salida rápida de Cloro (Cl-)",
+          "Entrada de moléculas de Glucosa",
+          "Absorción pasiva de Oxígeno molecular"
+        ],
+        "correctIndex": 0,
+        "explanation": "La apertura de los canales de sodio voltaje-dependientes permite la entrada de Na+, disparando la despolarización del axón."
+      }
+    ],
+    "resources": [
+      { "title": "Registro de Microelectrodos Virtuales", "type": "Holo-Lab", "duration": "10 min" }
+    ],
+    "x": -220,
+    "y": 120
+  },
+  {
+    "id": "bio-plasticidad-sinaptica",
+    "title": "Plasticidad Sináptica & Regla de Hebb",
+    "cluster": "Bio-Sistemas & Neuro",
+    "clusterColor": "#10b981",
+    "level": "Intermedio",
+    "summary": "Potenciación a largo plazo (LTP), reforzamiento y poda sináptica en el aprendizaje cerebral humano.",
+    "status": "in_progress",
+    "masteryScore": 70,
+    "xpReward": 190,
+    "synapses": ["bio-interfaces-cerebro-maquina", "ia-optimizacion-descenso"],
+    "prerequisites": ["bio-neurobiologia-redes"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "ia-optimizacion-descenso",
+        "description": "'Las neuronas que disparan juntas, se conectan juntas' vs ajuste global por gradiente."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 72,
+      "studentsStruggling": 31,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Cuál es el postulado fundamental de la Regla de Hebb?",
+        "options": [
+          "El cerebro pierde conexiones fijas con cada pensamiento",
+          "Cuando dos neuronas se activan de forma sincronizada y repetida, la fuerza de su conexión sináptica se incrementa",
+          "La velocidad del pensamiento depende exclusivamente de la temperatura corporal",
+          "Las sinapsis solo se forman durante el primer año de vida"
+        ],
+        "correctIndex": 1,
+        "explanation": "El postulado de Hebb establece que la coactivación sincrónica fortalece la sinapsis, fundamento biológico del aprendizaje asociativo."
+      }
+    ],
+    "resources": [
+      { "title": "Animación Molecular de Receptores NMDA", "type": "Simulación Bio", "duration": "9 min" }
+    ],
+    "x": -60,
+    "y": 160
+  },
+  {
+    "id": "bio-interfaces-cerebro-maquina",
+    "title": "Interfaces Cerebro-Máquina (BCI)",
+    "cluster": "Bio-Sistemas & Neuro",
+    "clusterColor": "#10b981",
+    "level": "Avanzado",
+    "summary": "Decodificación de señales EEG/ECoG, electrofisiología computacional y retroalimentación neuromórfica.",
+    "status": "locked",
+    "masteryScore": 0,
+    "xpReward": 270,
+    "synapses": ["sociedad-futuro-cognicion", "etica-neuroderechos"],
+    "prerequisites": ["bio-plasticidad-sinaptica", "ia-deep-learning"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "etica-neuroderechos",
+        "description": "La lectura e interactividad neural directa plantea dilemas de privacidad cognitiva y soberanía mental."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 45,
+      "studentsStruggling": 52,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Qué técnica no invasiva registra fluctuaciones de potencial eléctrico en el cuero cabelludo?",
+        "options": [
+          "Electroencefalografía (EEG)",
+          "Optogenética invasiva",
+          "Microdisección láser",
+          "Resonancia de espín de helio"
+        ],
+        "correctIndex": 0,
+        "explanation": "El EEG captura la actividad electrofisiológica síncrona de millones de neuronas corticales mediante electrodos cutáneos."
+      }
+    ],
+    "resources": [
+      { "title": "Taller: Decodificando Intención Motora con Python", "type": "Lab Práctico", "duration": "20 min" }
+    ],
+    "x": 120,
+    "y": 180
+  },
+  {
+    "id": "etica-sesgo-algoritmico",
+    "title": "Gobernanza Ética & Sesgos Algorítmicos",
+    "cluster": "Ética & Sociedad Digital",
+    "clusterColor": "#f59e0b",
+    "level": "Intermedio",
+    "summary": "Equidad algorítmica, sesgos de representación, justicia distributiva y auditoría de modelos opacos.",
+    "status": "in_progress",
+    "masteryScore": 50,
+    "xpReward": 160,
+    "synapses": ["etica-neuroderechos", "sociedad-futuro-cognicion"],
+    "prerequisites": ["ia-deep-learning"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "mat-algebra-lineal",
+        "description": "El sesgo no es solo social, se manifiesta matemáticamente como distribuciones desbalanceadas en subespacios de entrenamiento."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 65,
+      "studentsStruggling": 38,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Cómo puede un algoritmo de selección perpetuar discriminación histórica aunque se elimine la variable de género o raza?",
+        "options": [
+          "Por un fallo en el procesador físico de la computadora",
+          "A través de variables proxy correlacionadas (como código postal, historial de actividades o lenguaje)",
+          "Es imposible; al quitar la etiqueta desaparece todo sesgo",
+          "Solo ocurre si el programador escribe código malicioso intencionalmente"
+        ],
+        "correctIndex": 1,
+        "explanation": "Las variables sustitutas (proxies) retienen la información latente del sesgo, reproduciendo patrones históricos injustos de manera inadvertida."
+      }
+    ],
+    "resources": [
+      { "title": "Estudio de Caso: Auditoría a Modelos de Crédito", "type": "Caso de Estudio", "duration": "11 min" }
+    ],
+    "x": 280,
+    "y": 30
+  },
+  {
+    "id": "etica-neuroderechos",
+    "title": "Neuroderechos & Soberanía Mental",
+    "cluster": "Ética & Sociedad Digital",
+    "clusterColor": "#f59e0b",
+    "level": "Avanzado",
+    "summary": "Protección jurídica de la privacidad mental, continuidad de la identidad y libertad de pensamiento frente a neurotecnologías.",
+    "status": "locked",
+    "masteryScore": 0,
+    "xpReward": 240,
+    "synapses": ["sociedad-futuro-cognicion"],
+    "prerequisites": ["bio-interfaces-cerebro-maquina", "etica-sesgo-algoritmico"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "bio-interfaces-cerebro-maquina",
+        "description": "Leyes pioneras (como en Chile y la UE) regulan el acceso a datos biométricos y neuroseñales decodificadas."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 59,
+      "studentsStruggling": 28,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Cuál de los siguientes es uno de los 5 Neuroderechos fundamentales propuestos por la NeuroRights Foundation?",
+        "options": [
+          "Derecho a la Privacidad Mental y Soberanía Cognitiva",
+          "Derecho a minar criptomonedas con ondas cerebrales",
+          "Derecho a velocidad 5G ilimitada",
+          "Obligación de conectar implantes a la nube pública"
+        ],
+        "correctIndex": 0,
+        "explanation": "La Privacidad Mental protege los datos neuronales de los ciudadanos contra accesos, comercialización o monitoreo sin consentimiento explícito."
+      }
+    ],
+    "resources": [
+      { "title": "Tratado Internacional de Neuroderechos", "type": "Lectura Crítica", "duration": "12 min" }
+    ],
+    "x": 260,
+    "y": 240
+  },
+  {
+    "id": "sociedad-futuro-cognicion",
+    "title": "Simbiogénesis Cognitiva & Futuro Educativo",
+    "cluster": "Ética & Sociedad Digital",
+    "clusterColor": "#f59e0b",
+    "level": "Nivel Maestro",
+    "summary": "Co-evolución del pensamiento humano e inteligencias no biológicas en instituciones del siglo XXI.",
+    "status": "locked",
+    "masteryScore": 0,
+    "xpReward": 400,
+    "synapses": [],
+    "prerequisites": ["ia-transformers-atencion", "etica-neuroderechos"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "mat-algebra-lineal",
+        "description": "Cierra el ciclo: las matemáticas abstractas se convierten en la lengua común entre la mente humana y la máquina."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 42,
+      "studentsStruggling": 85,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Cuál es la principal ventaja de concebir el aprendizaje como una red interconectada y no como materias aisladas?",
+        "options": [
+          "Aumentar el número de exámenes estandarizados",
+          "Desarrollar pensamiento sistémico, identificar causas raíz de bloqueos y transferir conocimientos entre disciplinas",
+          "Memorizar listas de conceptos sin necesidad de comprenderlos",
+          "Eliminar el rol de los profesores en el aula"
+        ],
+        "correctIndex": 1,
+        "explanation": "El enfoque de red neuronal de conocimiento permite conectar saberes aparentemente distantes y comprender el impacto global de cada concepto."
+      }
+    ],
+    "resources": [
+      { "title": "Manifiesto de la Educación Conectivista", "type": "Ensayo Interactivo", "duration": "15 min" }
+    ],
+    "x": 420,
+    "y": 60
+  },
+  {
+    "id": "fis-mecanica-cuantica",
+    "title": "Física Cuántica & Superposición",
+    "cluster": "Física & Dinámica",
+    "clusterColor": "#06b6d4",
+    "level": "Avanzado",
+    "summary": "Estados cuánticos, matrices de densidad, operadores hermíticos y computación cuántica.",
+    "status": "in_progress",
+    "masteryScore": 30,
+    "xpReward": 280,
+    "synapses": ["ia-transformers-atencion"],
+    "prerequisites": ["mat-algebra-lineal"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "mat-algebra-lineal",
+        "description": "Los estados cuánticos residen en espacios de Hilbert y las mediciones son proyecciones de operadores autoadjuntos."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 44,
+      "studentsStruggling": 80,
+      "totalStudents": 150,
+      "isBottleneck": true
+    },
+    "quiz": [
+      {
+        "question": "¿Qué describe el principio de superposición cuántica?",
+        "options": [
+          "Que dos objetos clásicos pueden ocupar el mismo volumen físico",
+          "Que un sistema cuántico puede existir simultáneamente en una combinación lineal de múltiples estados hasta que es medido",
+          "Que la velocidad de la luz se duplica en el vacío",
+          "Que la energía se destruye espontáneamente"
+        ],
+        "correctIndex": 1,
+        "explanation": "La superposición permite que la función de onda combine múltiples estados base con amplitudes complejas hasta el colapso o decoherencia."
+      }
+    ],
+    "resources": [
+      { "title": "Simulador Qubit de Bloch", "type": "Holo-Lab", "duration": "16 min" }
+    ],
+    "x": -260,
+    "y": -280
+  },
+  {
+    "id": "fis-campos-electromagneticos",
+    "title": "Campos Electromagnéticos & Ondas",
+    "cluster": "Física & Dinámica",
+    "clusterColor": "#06b6d4",
+    "level": "Intermedio",
+    "summary": "Ecuaciones de Maxwell, divergencia, rotacional y propagación de señales en medios continuos.",
+    "status": "in_progress",
+    "masteryScore": 55,
+    "xpReward": 190,
+    "synapses": ["fis-mecanica-cuantica", "bio-neurobiologia-redes"],
+    "prerequisites": ["mat-calculo-vectorial"],
+    "interdisciplinaryBridges": [
+      {
+        "targetId": "bio-neurobiologia-redes",
+        "description": "Las corrientes iónicas axonales generan micro-campos electromagnéticos detectables por magnetoencefalografía (MEG)."
+      }
+    ],
+    "cohortStats": {
+      "averageScore": 61,
+      "studentsStruggling": 49,
+      "totalStudents": 150,
+      "isBottleneck": false
+    },
+    "quiz": [
+      {
+        "question": "¿Qué operador diferencial mide la tendencia de un campo vectorial a divergir o emitirse desde un punto fuente?",
+        "options": [
+          "La divergencia (∇ · F)",
+          "El gradiente simple",
+          "El determinante de rotación cero",
+          "La transformada rápida de Fourier"
+        ],
+        "correctIndex": 0,
+        "explanation": "La divergencia evalúa el flujo neto entrante o saliente de un volumen infinitesimal (teorema de Gauss)."
+      }
+    ],
+    "resources": [
+      { "title": "Cámara de Flujo Electromagnético", "type": "Simulación 3D", "duration": "10 min" }
+    ],
+    "x": -150,
+    "y": -360
+  }
+]

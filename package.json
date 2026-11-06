@@ -1,0 +1,28 @@
+{
+  "name": "synapse-edu",
+  "version": "1.0.0",
+  "description": "Red Neuronal Cognitiva Interdisciplinaria para Instituciones Educativas",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev:server": "node --watch server/server.js",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently -n \"API,APP\" -c \"magenta,cyan\" \"npm run dev:server\" \"npm run dev:client\"",
+    "build": "npm --prefix client run build",
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install"
+  },
+  "keywords": [
+    "education",
+    "neural-network",
+    "knowledge-graph",
+    "react",
+    "node",
+    "tailwind"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
